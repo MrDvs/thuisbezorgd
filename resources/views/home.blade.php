@@ -16,7 +16,7 @@
 {{-- Restaurant --}}
 <div class="restaurants">
     @foreach($restaurants as $restaurant)
-        <a href="#" style="text-decoration: none; color: #000;">
+        <a href="{{route('restaurant.show', ['id' => $restaurant->id])}}" style="text-decoration: none; color: #000;">
             <div class="restaurant clearfix" style="padding: 5px; background-color: #f5f5f5; margin: 15px 0; border-radius: 5px;">
                 <div class="logo" style="float: left; margin-right: 20px">
                     <img src="{{asset('img/'.$restaurant->photo)}}" style="height: 20vh; width: auto;">
