@@ -15,4 +15,9 @@ class Restaurant extends Model
     {
     	return $this->hasMany('App\Consumable');
     }
+
+    public function owner()
+    {
+    	return $this->belongsTo('App\User');
+    }
 }

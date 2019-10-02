@@ -1,7 +1,6 @@
-@extends('layouts/app')
+@extends('layouts.app')
 
 @section('content')
-
 @foreach ($errors->all() as $message)
     <div class="alert alert-danger" role="alert">
         {{$message}}
@@ -10,7 +9,7 @@
 
 <form enctype="multipart/form-data" style="margin-top: 2vh" method="POST" action="{{ route('register') }}">
     @csrf
-    <h3>Registreren</h3>
+    <h3>Profiel</h3>
     <hr>
     <div class="row">
         <div class="col-md-3">
@@ -66,5 +65,4 @@
     </div>
     <button type="submit" class="btn btn-primary">Registreren</button>
 </form>
-
 @endsection
