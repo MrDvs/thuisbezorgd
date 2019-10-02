@@ -23,7 +23,7 @@
                 </div>
                 <div class="detailswrapper">
                     <h2 class="restaurantname" style="font-weight: bold;">{{$restaurant->title}}</h2>
-                    <h4 class="restaurantaddress">{{$restaurant->address}}, {{$restaurant->city}}</h2>
+                    <h4 class="restaurantaddress">{{$restaurant->address}}, {{$restaurant->city}}</h4>
                 </div>
             </div>
         </a>
