@@ -1,11 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    .restaurant:hover{
-        background-color: #000000 !important;
-    }
-</style>
 {{-- Search bar --}}
 <div class="input-group mb-4" style="width: 50%; margin: auto;">
     <input type="search" placeholder="Zoek op restaurantnaam" aria-describedby="button-addon5" class="form-control" name="query">
@@ -16,10 +11,10 @@
 {{-- Restaurant --}}
 <div class="restaurants">
     @foreach($restaurants as $restaurant)
-        <a href="{{route('restaurant.show', ['id' => $restaurant->id])}}" style="text-decoration: none; color: #000;">
+        <a href="{{route('restaurant.show', ['restaurant' => $restaurant->id])}}" style="text-decoration: none; color: #000;">
             <div class="restaurant clearfix" style="padding: 5px; background-color: #f5f5f5; margin: 15px 0; border-radius: 5px;">
                 <div class="logo" style="float: left; margin-right: 20px">
-                    <img src="{{asset('img/'.$restaurant->photo)}}" style="height: 20vh; width: auto;">
+                    <img src="{{asset('storage/'.$restaurant->photo)}}" style="height: 20vh; width: auto;">
                 </div>
                 <div class="detailswrapper">
                     <h2 class="restaurantname" style="font-weight: bold;">{{$restaurant->title}}</h2>

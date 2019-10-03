@@ -7,7 +7,8 @@
     </div>
 @endforeach
 
-<form enctype="multipart/form-data" style="margin-top: 2vh" method="POST" action="{{ route('profile.update') }}">
+<form enctype="multipart/form-data" style="margin-top: 2vh" method="POST" action="{{ route('profile.update', ['profile' => $user->id]) }}">
+    @method('PATCH')
     @csrf
     <h3>Profiel</h3>
     <hr>
