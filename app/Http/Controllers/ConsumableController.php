@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Consumable;
+use App\Restaurant;
 use Illuminate\Http\Request;
 
 class ConsumableController extends Controller
@@ -24,7 +25,7 @@ class ConsumableController extends Controller
      */
     public function create()
     {
-        //
+        return view('consumable.create');
     }
 
     /**

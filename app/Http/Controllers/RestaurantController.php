@@ -43,7 +43,7 @@ class RestaurantController extends Controller
             'address' => ['required', 'string', 'max:191'],
             'zipcode' => ['required', 'string', 'max:7'],
             'city' => ['required', 'string', 'max:191'],
-            'phone' => ['required', 'numeric', 'digits_between:8,12'],
+            'phone' => ['required', 'numeric', 'digits_between:8,12', 'unique:restaurants'],
             'email' => ['required', 'string', 'email', 'max:191', 'unique:restaurants'],
             'photo' => ['required', 'image'],
         ]);
@@ -56,13 +56,13 @@ class RestaurantController extends Controller
         $cropped->save('../storage/app/public/'.$img_id);
 
         $restaurant = new Restaurant();
-        $restaurant->title = $request->title; 
-        $restaurant->kvk = $request->kvk; 
-        $restaurant->address = $request->address; 
-        $restaurant->zipcode = $request->zipcode; 
-        $restaurant->city = $request->city; 
-        $restaurant->phone = $request->phone; 
-        $restaurant->email = $request->email; 
+        $restaurant->title = $request->title;
+        $restaurant->kvk = $request->kvk;
+        $restaurant->address = $request->address;
+        $restaurant->zipcode = $request->zipcode;
+        $restaurant->city = $request->city;
+        $restaurant->phone = $request->phone;
+        $restaurant->email = $request->email;
         $restaurant->photo = $img_id;
         $restaurant->user_id = Auth::id();
         $restaurant->save();
@@ -110,7 +110,7 @@ class RestaurantController extends Controller
             'address' => ['required', 'string', 'max:191'],
             'zipcode' => ['required', 'string', 'max:7'],
             'city' => ['required', 'string', 'max:191'],
-            'phone' => ['required', 'numeric', 'digits_between:8,12'],
+            'phone' => ['required', 'numeric', 'digits_between:8,12', 'unique:restaurants'],
         ];
         if ($request->title != $restaurant->title) {
             $validateArray += ['title' => ['required', 'string', 'max:191', 'unique:restaurants']];
