@@ -23,5 +23,5 @@ Route::resource('profile', 'ProfileController');
 
 // Restaurant routes
 Route::resource('restaurant', 'RestaurantController');
-Route::resource('consumable', 'ConsumabelController');
+Route::resource('restaurant/{restaurant_id}/consumable', 'ConsumableController');
 

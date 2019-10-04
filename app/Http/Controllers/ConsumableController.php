@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Image;
 use App\Consumable;
 use App\Restaurant;
 use Illuminate\Http\Request;
@@ -23,9 +24,9 @@ class ConsumableController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        return view('consumable.create');
+        return view('consumable.create', ['id' => $id]);
     }
 
     /**
@@ -34,9 +35,31 @@ class ConsumableController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $restaurant_id)
     {
-        //
+        request()->validate([
+            'title' => ['required', 'string', 'max:191'],
+            'category' => ['required', 'string', 'max:191'],
+            'photo' => ['required', 'image'],
+            'price' => ['required', 'numeric', 'between:0,99.99'],
+        ]);
+
+        $originalImage = $request->file('photo');
+        $cropped = Image::make($originalImage)
+            ->fit(200, 200)
+            ->encode('jpg', 80);
+        $img_id = uniqid().'.jpg';
+        $cropped->save('../storage/app/public/'.$img_id);
+        dd($request);
+        $consumable = new Restaurant();
+        $consumable->title = $request->title;
+        $consumable->category = $request->category;
+        $consumable->price = $request->price;
+        $consumable->photo = $img_id;
+        $consumable->restaurant_id = $restaurant_id;
+        $consumable->save();
+
+        dd($request);
     }
 
     /**
