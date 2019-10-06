@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
         $restaurant->city = 'Amsterdam';
         $restaurant->phone = '0612345678';
         $restaurant->email = 'info@wraps.nl';
-        $restaurant->photo = '';
+        $restaurant->photo = 'wraps.jpg';
         $restaurant->user_id = 1;
         $restaurant->save();
 

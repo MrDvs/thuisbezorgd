@@ -14,7 +14,7 @@
         <a href="{{route('restaurant.show', ['restaurant' => $restaurant->id])}}" style="text-decoration: none; color: #000;">
             <div class="restaurant clearfix" style="padding: 5px; background-color: #f5f5f5; margin: 15px 0; border-radius: 5px;">
                 <div class="logo" style="float: left; margin-right: 20px">
-                    <img src="{{asset('storage/'.$restaurant->photo)}}" style="height: 20vh; width: auto;">
+                    <img src="{{asset('storage/'.$restaurant->photo)}}" style="height: 180px; width: 180px;">
                 </div>
                 <div class="detailswrapper">
                     <h2 class="restaurantname" style="font-weight: bold;">{{$restaurant->title}}</h2>

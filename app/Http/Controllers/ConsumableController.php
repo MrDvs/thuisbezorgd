@@ -50,8 +50,7 @@ class ConsumableController extends Controller
             ->encode('jpg', 80);
         $img_id = uniqid().'.jpg';
         $cropped->save('../storage/app/public/'.$img_id);
-        dd($request);
-        $consumable = new Restaurant();
+        $consumable = new Consumable();
         $consumable->title = $request->title;
         $consumable->category = $request->category;
         $consumable->price = $request->price;
@@ -59,7 +58,7 @@ class ConsumableController extends Controller
         $consumable->restaurant_id = $restaurant_id;
         $consumable->save();
 
-        dd($request);
+        return redirect()->route('restaurant.show', ['restaurant' => $restaurant_id]);
     }
 
     /**

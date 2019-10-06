@@ -78,8 +78,29 @@ class RestaurantController extends Controller
      */
     public function show($id)
     {
-        $restaurant = Restaurant::find($id);
-        return view('restaurant.show', ['restaurant' => $restaurant]);
+        $restaurant = Restaurant::where('id', $id)->with('consumables')->get();
+        $food = [];
+        $drinks = [];
+        $sides = [];
+        foreach ($restaurant[0]->consumables as $key => $consumable) {
+            switch ($consumable->category) {
+                case 'Eten':
+                    array_push($food, $restaurant[0]->consumables[$key]);
+                    break;
+                case 'Drinken':
+                    array_push($drinks, $restaurant[0]->consumables[$key]);
+                    break;
+                case 'Bijgerecht':
+                    array_push($sides, $restaurant[0]->consumables[$key]);
+                    break;
+            }
+        }
+        return view('restaurant.show', [
+            'restaurant' => $restaurant[0],
+            'food' => $food,
+            'drinks' => $drinks,
+            'sides' => $sides,
+        ]);
     }
 
     /**
