@@ -39,7 +39,7 @@ class ConsumableController extends Controller
     {
         request()->validate([
             'title' => ['required', 'string', 'max:191'],
-            'category' => ['required', 'string', 'max:191'],
+            'category' => ['required', 'numeric'],
             'photo' => ['required', 'image'],
             'price' => ['required', 'numeric', 'between:0,99.99'],
         ]);

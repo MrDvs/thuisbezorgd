@@ -84,20 +84,20 @@ class RestaurantController extends Controller
         $sides = [];
         foreach ($restaurant[0]->consumables as $key => $consumable) {
             switch ($consumable->category) {
-                case 'Eten':
+                case 1:
                     array_push($food, $restaurant[0]->consumables[$key]);
                     break;
-                case 'Drinken':
+                case 2:
                     array_push($drinks, $restaurant[0]->consumables[$key]);
                     break;
-                case 'Bijgerecht':
+                case 3:
                     array_push($sides, $restaurant[0]->consumables[$key]);
                     break;
             }
         }
         return view('restaurant.show', [
             'restaurant' => $restaurant[0],
-            'food' => $food,
+            'foods' => $food,
             'drinks' => $drinks,
             'sides' => $sides,
         ]);

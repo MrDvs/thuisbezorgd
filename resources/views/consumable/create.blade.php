@@ -27,9 +27,9 @@
             <div class="form-group">
                 <label for="categoryInput">Categorie</label>
                 <select name="category" id="categoryInput" class="form-control">
-                    <option value="Eten">Eten</option>
-                    <option value="Drinken">Drinken</option>
-                    <option value="Bijgerecht">Bijgerecht</option>
+                    <option value="1">Eten</option>
+                    <option value="2">Drinken</option>
+                    <option value="3">Bijgerecht</option>
                 </select>
             </div>
             <div class="form-group">
