@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Image;
+use App\Consumable;
 use App\Restaurant;
 use Illuminate\Http\Request;
 
@@ -170,5 +171,22 @@ class RestaurantController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function pay($id)
+    {
+        $items = session()->get('consumables');
+        $cart = [];
+        foreach ($items as $key => $item) {
+            array_push($cart, Consumable::where('id', $item)->get()[0]);
+        }
+        $total = 0;
+        foreach ($cart as $cartItem) {
+            $total += $cartItem['price'];
+        }
+        return view('restaurant.pay', [
+            'cart' => $cart,
+            'total' => $total
+        ]);
     }
 }
