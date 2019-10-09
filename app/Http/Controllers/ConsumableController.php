@@ -101,9 +101,11 @@ class ConsumableController extends Controller
      * @param  \App\Consumable  $consumable
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Consumable $consumable)
+    public function destroy($restaurant_id, Consumable $consumable)
     {
-        //
+        $mazzol = Consumable::destroy($consumable->id);
+        dd($mazzol);
+        return redirect()->back();
     }
 
     public function addToCart($id)

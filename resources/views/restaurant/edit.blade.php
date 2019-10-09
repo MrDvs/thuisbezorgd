@@ -53,4 +53,33 @@
         <button type="submit" class="btn btn-primary">Aanmaken</button>
     </div>
 </form>
+<hr>
+<div class="row">
+    <div class="col-md-3">
+        <h4>Vernsaperingen</h4>
+    </div>
+    <div class="col-md-9">
+        <a href="{{route('consumable.create', ['restaurant_id' => $restaurant->id])}}" class="btn btn-primary" style="margin-bottom: 10px">Versnapering toevoegen</a>
+        @foreach($restaurant->consumables as $consumable)
+            <div class="restaurant clearfix" style="padding: 5px; background-color: #f5f5f5; margin: 15px 0; border-radius: 5px;">
+                <div class="logo" style="float: left; margin-right: 20px">
+                    <img src="{{asset('storage/'.$consumable->photo)}}" style="height: 180px; width: 180px;">
+                </div>
+                <div class="detailswrapper">
+                    <h2 class="restaurantname" style="font-weight: bold;">{{$consumable->title}}</h2>
+                    <h4 class="restaurantaddress">€{{$consumable->price}}, {{$consumable->category}}</h4>
+
+                    {{-- <a class="add-to-cart btn btn-danger" id="{{$consumable->category}}-{{$consumable->id}}" style="float: right;" href="{{route('consumable.destroy', ['consumable' => $consumable->id])}}" onclick="event.preventDefault(); document.getElementById('delete-form').submit();">Verwijderen</a> --}}
+                    
+
+                    <form action="{{route('consumable.destroy', ['consumable' => $consumable])}}" method="POST">
+                        @csrf
+                        @method('delete')
+                        <button class="btn btn-danger" type="submit">Verwijderen+</button>
+                    </form>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</div>
 @endsection
