@@ -77,7 +77,7 @@
 					<li>{{$consumable}}</li>
 				@endforeach --}}
 			</ul>
-			<a href="{{route('pay', ['id' => $restaurant->id])}}" class="btn btn-secondary">Afrekenen</a>
+			<a href="{{route('checkout', ['id' => $restaurant->id])}}" class="btn btn-secondary">Afrekenen</a>
 		</div>
 	</div>
 </div>
@@ -91,7 +91,7 @@
 	    	type: "GET",
 		}).done(function(data) {
 			console.log(data);
-			$('#'+id).html('Toegevoegd')
+			// $('#'+id).html('Toegevoegd')
 			// $('#'+id).attr('href', '#')
 			$('#cart').append('<li class="list-group-item">'+data+'</li>')
 		});

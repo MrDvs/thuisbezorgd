@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\User;
+use App\Consumable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -16,8 +17,22 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $user = User::where('id', Auth::id())->with('restaurants')->get();
-        return view('profile.show', ['user' => $user[0]]);
+        $user = User::where('id', Auth::id())->with('restaurants', 'orders')->get()[0];
+        $orders = [];
+        if (count($user->orders)) {
+            foreach ($user->orders as $key => $order) {
+                foreach ($order->consumables as $consumableKey => $consumable) {
+                    echo 'orderid: '.$key.' consumableid: '.$consumable['id'];
+                    echo "<br>";
+                    $consumable = Consumable::find($consumable->id);
+                    $orders += [$key => [$consumableKey => $consumable]];
+                }
+                // dd($order->consumables);
+                echo "<br>";
+            }
+        }
+        dd($orders);
+        return view('profile.show', ['user' => $user]);
     }
 
     /**

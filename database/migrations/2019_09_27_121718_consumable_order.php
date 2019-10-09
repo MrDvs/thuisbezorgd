@@ -15,11 +15,10 @@ class ConsumableOrder extends Migration
     {
         Schema::create('consumable_order', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('restaurant_id');
+            $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('consumable_id');
             $table->integer('quantity');
             $table->decimal('price', 8, 2);
-            $table->timestamps();
         });
     }
 

@@ -17,6 +17,7 @@
     @endforeach
   </tbody>
 </table>
-Totaal: {{$total}}
+Totaal: €{{$total}} <br>
+<a href="{{route('pay')}}" class="btn btn-primary">Betalen</a>
 
 @endsection

@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+@if (session('status'))
+    <div class="alert alert-success text-center">
+        <h5>{{ session('status') }}</h5>
+    </div>
+@endif
 <h3>Profiel</h3>
 <hr>
 <div class="row">
@@ -16,6 +21,23 @@
        
         <a href="{{route('profile.edit', ['profile' => $user->id])}}">Persoonlijke gegevens bewerken ></a>
     </div>
+</div>
+<hr>
+<div class="row">
+	<div class="col-md-3">
+		<h4>Mijn orders</h4>
+	</div>
+	<div class="col-md-9">
+		@if(count($user->orders))
+			<div class="orders">
+			    @foreach($user->orders as $order)
+		            {{$order->consumables}}
+			    @endforeach
+			</div>
+		@else
+			<h5>Je hebt geen orders.</h5>
+		@endif
+	</div>
 </div>
 <hr>
 <div class="row">

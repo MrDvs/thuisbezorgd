@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Image;
+use App\Order;
 use App\Consumable;
 use App\Restaurant;
 use Illuminate\Http\Request;
@@ -173,7 +174,7 @@ class RestaurantController extends Controller
         //
     }
 
-    public function pay($id)
+    public function checkout($restaurant_id)
     {
         $items = session()->get('consumables');
         $cart = [];
@@ -184,9 +185,26 @@ class RestaurantController extends Controller
         foreach ($cart as $cartItem) {
             $total += $cartItem['price'];
         }
+        $total = number_format($total, 2);
         return view('restaurant.pay', [
             'cart' => $cart,
             'total' => $total
         ]);
+    }
+
+    public function pay($restaurant_id)
+    {
+        $items = session()->get('consumables');
+
+        $order = new Order();
+        $order->user_id = Auth::id();
+        $order->restaurant_id = $restaurant_id;
+        $order->save();
+
+        foreach ($items as $item) {
+            $order->consumables()->attach($item, ['quantity' => 1, 'price' => 1]);
+        }
+        
+        return redirect()->route('profile.index')->with('status', 'Betaling geslaagd!');
     }
 }
