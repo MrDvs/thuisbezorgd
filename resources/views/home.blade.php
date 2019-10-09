@@ -2,12 +2,15 @@
 
 @section('content')
 {{-- Search bar --}}
-<div class="input-group mb-4" style="width: 50%; margin: auto;">
-    <input type="search" placeholder="Zoek op restaurantnaam" aria-describedby="button-addon5" class="form-control" name="query">
-    <div class="input-group-append">
-        <button type="submit" id="button-addon5" type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+<form action="{{route('search')}}" method="POST">
+    @csrf
+    <div class="input-group mb-4" style="width: 50%; margin: auto;">
+        <input type="search" placeholder="Zoek op restaurantnaam" aria-describedby="button-addon5" class="form-control" name="query">
+        <div class="input-group-append">
+            <button type="submit" id="button-addon5" type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+        </div>
     </div>
-</div>
+</form>
 {{-- Restaurant --}}
 <div class="restaurants">
     @foreach($restaurants as $restaurant)

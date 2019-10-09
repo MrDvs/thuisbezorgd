@@ -111,11 +111,5 @@ class ConsumableController extends Controller
         session()->push('consumables', $id);
         $name = Consumable::where('id', $id)->get()[0]['title'];
         return $name;
-        
-    }
-
-    public function clearsession()
-    {   
-        session()->forget('consumable');
     }
 }

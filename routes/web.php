@@ -25,8 +25,8 @@ Route::resource('profile', 'ProfileController');
 Route::resource('restaurant', 'RestaurantController');
 Route::get('restaurant/{restaurant_id}/afrekenen', 'RestaurantController@checkout')->name('checkout');
 Route::get('restaurant/{restaurant_id}/betalen', 'RestaurantController@pay')->name('pay');
+Route::post('zoeken', 'RestaurantController@search')->name('search');
+
+// Consumable routes
 Route::resource('restaurant/{restaurant_id}/consumable', 'ConsumableController');
-
 Route::get('addtocart/{id}', 'ConsumableController@addToCart')->name('cart.add');
-Route::get('clearsession', 'ConsumableController@clearsession')->name('session.clear');
-

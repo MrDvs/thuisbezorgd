@@ -207,4 +207,14 @@ class RestaurantController extends Controller
         
         return redirect()->route('profile.index')->with('status', 'Betaling geslaagd!');
     }
+
+    public function search(Request $request)
+    {
+        $query = $request['query'];
+        $results = Restaurant::where('title', 'like', '%'.$query.'%')->get();
+        return view('restaurant.search', [
+            'results' => $results, 
+            'query' => $query
+        ]);
+    }
 }
