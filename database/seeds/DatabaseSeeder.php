@@ -4,6 +4,7 @@ use App\User;
 use App\Restaurant;
 use App\Order;
 use App\Consumable;
+use App\openingtime;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -58,6 +59,18 @@ class DatabaseSeeder extends Seeder
         $restaurant->photo = 'restaurant1.jpg';
         $restaurant->user_id = 2;
         $restaurant->save();
+
+        $openingtime = new openingtime();
+        $openingtime->restaurant_id = 1;
+        $openingtime->open = '08:00:00';
+        $openingtime->close = '17:00:00';
+        $openingtime->save();
+
+        $openingtime = new openingtime();
+        $openingtime->restaurant_id = 2;
+        $openingtime->open = '13:00:00';
+        $openingtime->close = '23:00:00';
+        $openingtime->save();
 
     }
 }

@@ -82,10 +82,9 @@
 	@if($isOpen)
 	<div class="col-md-3">
 		<div class="cart" style="position: fixed; border: 1px solid black; width: 500px">
+			<h5 class="text-center">Winkelwagen</h5>
+			<hr>
 			<ul class="list-group" id="cart" style="list-style: none;">
-				{{-- @foreach($consumables as $consumable)
-					<li>{{$consumable}}</li>
-				@endforeach --}}
 			</ul>
 			<a href="{{route('checkout', ['id' => $restaurant->id])}}" class="btn btn-secondary">Afrekenen</a>
 		</div>
