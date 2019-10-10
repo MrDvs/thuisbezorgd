@@ -48,6 +48,23 @@
                 <label for="photoInput">Logo</label>
                 <input type="file" class="form-control-file @error('photo') is-invalid @enderror" id="photoInput" name="photo">
             </div>
+            <hr>
+        </div>
+        <div class="col-md-3">
+            <h4>Openingstijden</h4>
+        </div>
+        <div class="col-md-9">
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col">
+                      <input type="time" class="form-control" name="open" value="{{old('open')}}">
+                    </div>
+                    tot
+                    <div class="col">
+                      <input type="time" class="form-control" name="close" value="{{old('close')}}">
+                    </div>
+                  </div>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary">Aanmaken</button>
     </div>

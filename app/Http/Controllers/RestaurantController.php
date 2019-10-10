@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Auth;
 use Image;
 use App\Order;
+use Carbon\Carbon;
 use App\Consumable;
 use App\Restaurant;
+use App\Openingtime;
 use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
@@ -48,6 +50,8 @@ class RestaurantController extends Controller
             'phone' => ['required', 'numeric', 'digits_between:8,12', 'unique:restaurants'],
             'email' => ['required', 'string', 'email', 'max:191', 'unique:restaurants'],
             'photo' => ['required', 'image'],
+            'open' => ['required'],
+            'close' => ['required'],
         ]);
 
         $originalImage = $request->file('photo');
@@ -69,6 +73,12 @@ class RestaurantController extends Controller
         $restaurant->user_id = Auth::id();
         $restaurant->save();
 
+        $openingtimes = new Openingtime();
+        $openingtimes->restaurant_id = $restaurant->id;
+        $openingtimes->open = $request->open;
+        $openingtimes->close = $request->close;
+        $openingtimes->save();
+
         return redirect()->route('restaurant.show', ['restaurant' => $restaurant->id]);
     }
 
@@ -80,7 +90,15 @@ class RestaurantController extends Controller
      */
     public function show($id)
     {
-        $restaurant = Restaurant::where('id', $id)->with('consumables')->get();
+        $restaurant = Restaurant::where('id', $id)->with('consumables', 'openingtimes')->get();
+        $open = $restaurant[0]->openingtimes->open;
+        $close = $restaurant[0]->openingtimes->close;
+        $now = carbon::now()->format('H:i:s');
+        if ($now >= $open && $now <= $close) {
+            $isOpen = 1;
+        } else {
+            $isOpen = 0;
+        }
         $food = [];
         $drinks = [];
         $sides = [];
@@ -102,6 +120,7 @@ class RestaurantController extends Controller
             'foods' => $food,
             'drinks' => $drinks,
             'sides' => $sides,
+            'isOpen' => $isOpen,
         ]);
     }
 
@@ -114,7 +133,11 @@ class RestaurantController extends Controller
     public function edit($id)
     {
         $restaurant = Restaurant::find($id);
-        return view('restaurant.edit', ['restaurant' => $restaurant]);
+        $openingtimes = $restaurant->openingtimes;
+        return view('restaurant.edit', [
+            'restaurant' => $restaurant,
+            'openingtimes' => $openingtimes
+        ]);
     }
 
     /**
@@ -204,7 +227,7 @@ class RestaurantController extends Controller
         foreach ($items as $item) {
             $order->consumables()->attach($item, ['quantity' => 1, 'price' => 1]);
         }
-        
+
         return redirect()->route('profile.index')->with('status', 'Betaling geslaagd!');
     }
 
@@ -213,7 +236,7 @@ class RestaurantController extends Controller
         $query = $request['query'];
         $results = Restaurant::where('title', 'like', '%'.$query.'%')->get();
         return view('restaurant.search', [
-            'results' => $results, 
+            'results' => $results,
             'query' => $query
         ]);
     }

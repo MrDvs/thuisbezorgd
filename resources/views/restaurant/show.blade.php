@@ -6,7 +6,10 @@
 	<div class="col-md-9">
 		<div class="restaurant-container">
 			<img src="{{asset('storage/'.$restaurant->photo)}}" style="height: 180px; width: 180px; display: block; margin: auto;">
-			<h2 style="text-align: center;">{{$restaurant->title}}</h2>
+			<h2 class="text-center">{{$restaurant->title}}</h2>
+			@if(!$isOpen)
+			<h4 class="text-center">{{$restaurant->title}} is gesloten. Je kan nu niks bestellen.</h4>
+			@endif
 			<h3>Gerechten</h3>
 			<hr>
 			@auth
@@ -24,7 +27,9 @@
 			            <div class="detailswrapper">
 			                <h2 class="restaurantname" style="font-weight: bold;">{{$food->title}}</h2>
 			                <h4 class="restaurantaddress">€{{$food->price}}, {{$food->category}}</h4>
+			                @if($isOpen)
 			                <a class="add-to-cart" id="{{$food->category}}-{{$food->id}}" style="float: right;" href="{{route('cart.add', ['id' => $food->id])}}"><i class="fas fa-cart-plus"></i>Toevoegen</a>
+			                @endif
 			            </div>
 			        </div>
 				@endforeach
@@ -42,7 +47,9 @@
 			            <div class="detailswrapper">
 			                <h2 class="restaurantname" style="font-weight: bold;">{{$drink->title}}</h2>
 			                <h4 class="restaurantaddress">€{{$drink->price}}, {{$drink->category}}</h4>
+			                @if($isOpen)
 			                <a class="add-to-cart" id="{{$drink->category}}-{{$drink->id}}" style="float: right;" href="{{route('cart.add', ['id' => $drink->id])}}"><i class="fas fa-cart-plus"></i>Toevoegen</a>
+			                @endif
 			            </div>
 			        </div>
 				@endforeach
@@ -60,7 +67,9 @@
 			            <div class="detailswrapper">
 			                <h2 class="restaurantname" style="font-weight: bold;">{{$side->title}}</h2>
 			                <h4 class="restaurantaddress">€{{$side->price}}, {{$side->category}}</h4>
+			                @if($isOpen)
 			                <a class="add-to-cart" id="{{$side->category}}-{{$side->id}}" style="float: right;" href="{{route('cart.add', ['id' => $side->id])}}"><i class="fas fa-cart-plus"></i>Toevoegen</a>
+			                @endif
 			            </div>
 			        </div>
 				@endforeach
@@ -70,6 +79,7 @@
 			<hr>
 		</div>
 	</div>
+	@if($isOpen)
 	<div class="col-md-3">
 		<div class="cart" style="position: fixed; border: 1px solid black; width: 500px">
 			<ul class="list-group" id="cart" style="list-style: none;">
@@ -80,6 +90,7 @@
 			<a href="{{route('checkout', ['id' => $restaurant->id])}}" class="btn btn-secondary">Afrekenen</a>
 		</div>
 	</div>
+	@endif
 </div>
 
 <script type="application/javascript">
@@ -91,8 +102,6 @@
 	    	type: "GET",
 		}).done(function(data) {
 			console.log(data);
-			// $('#'+id).html('Toegevoegd')
-			// $('#'+id).attr('href', '#')
 			$('#cart').append('<li class="list-group-item">'+data+'</li>')
 		});
 	});

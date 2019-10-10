@@ -24,4 +24,9 @@ class Restaurant extends Model
     {
     	return $this->belongsTo('App\User');
     }
+
+    public function openingtimes()
+    {
+        return $this->hasOne('App\openingtime');
+    }
 }

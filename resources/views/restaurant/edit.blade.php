@@ -50,7 +50,6 @@
                 <input type="file" class="form-control-file @error('photo') is-invalid @enderror" id="photoInput" name="photo">
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Aanmaken</button>
     </div>
 </form>
 <hr>
@@ -70,7 +69,7 @@
                     <h4 class="restaurantaddress">€{{$consumable->price}}, {{$consumable->category}}</h4>
 
                     {{-- <a class="add-to-cart btn btn-danger" id="{{$consumable->category}}-{{$consumable->id}}" style="float: right;" href="{{route('consumable.destroy', ['consumable' => $consumable->id])}}" onclick="event.preventDefault(); document.getElementById('delete-form').submit();">Verwijderen</a> --}}
-                    
+
 
                     <form action="{{route('consumable.destroy', ['consumable' => $consumable])}}" method="POST">
                         @csrf
