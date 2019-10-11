@@ -18,10 +18,13 @@ class ProfileController extends Controller
      */
     public function index()
     {
+        // Get the current logged in user with his restaurants and orders
         $user = User::where('id', Auth::id())->with('restaurants', 'orders')->get()[0];
+        // Create an empty orders array
         $orders = [];
         if (count($user->orders)) {
             foreach ($user->orders as $key => $order) {
+                // Push the consumables of each order to the orders array
                 array_push($orders, Order::where('id', $order->id)->with('consumables')->get()[0]);
             }
         }
@@ -72,6 +75,7 @@ class ProfileController extends Controller
      */
     public function edit($id)
     {
+        // Edit the current logged in user
         $user = User::find(Auth::id());
         return view('profile.edit', ['user' => $user]);
     }
@@ -95,20 +99,23 @@ class ProfileController extends Controller
             'city' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'numeric', 'digits_between:8,12', 'unique:users'],
         ];
+        // If the email changed, at it to the validateArray
         if ($request->email != $user->email)
         {
             $validateArray += ['email' => ['required', 'string', 'email', 'max:255', 'unique:users']];
         }
-        // If the password is not null, add it to the validation- and updatearray
+        // If the password is not null, add it to the validateArray
         if ($request->password != null)
         {
             $validateArray += ['password' => ['required', 'string', 'min:6', 'confirmed']];
+            // If it is null, remove them from the request data so that it wont get updated
         } else {
             unset($requestData['password']);
             unset($requestData['password_confirmation']);
         }
         // Validate everything is the validate array
         request()->validate($validateArray);
+        // If the password has changed, encrypt it
         if($request->password != null)
         {
             $requestData['password'] = Hash::make($request->password);

@@ -37,6 +37,7 @@ class ConsumableController extends Controller
      */
     public function store(Request $request, $restaurant_id)
     {
+        // Validate the input fields
         request()->validate([
             'title' => ['required', 'string', 'max:191'],
             'category' => ['required', 'numeric'],
@@ -44,12 +45,15 @@ class ConsumableController extends Controller
             'price' => ['required', 'numeric', 'between:0,99.99'],
         ]);
 
+        // Crop the image and save it
         $originalImage = $request->file('photo');
         $cropped = Image::make($originalImage)
             ->fit(200, 200)
             ->encode('jpg', 80);
         $img_id = uniqid().'.jpg';
         $cropped->save('../storage/app/public/'.$img_id);
+
+        // Create e new row in the consumables table
         $consumable = new Consumable();
         $consumable->title = $request->title;
         $consumable->category = $request->category;
@@ -103,14 +107,16 @@ class ConsumableController extends Controller
      */
     public function destroy($restaurant_id, Consumable $consumable)
     {
-        $mazzol = Consumable::destroy($consumable->id);
-        dd($mazzol);
+        // Destroy the consumable with the given ID
+        Consumable::destroy($consumable->id);
         return redirect()->back();
     }
 
     public function addToCart($id)
-    {   
+    {
+        // Store the ID of the consumable in the consumable array in the session cookie
         session()->push('consumables', $id);
+        // Look up the name of the consumable so it can be added to the cart
         $name = Consumable::where('id', $id)->get()[0]['title'];
         return $name;
     }

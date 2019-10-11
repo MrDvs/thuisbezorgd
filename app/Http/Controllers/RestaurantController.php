@@ -41,6 +41,7 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate the input fields
         request()->validate([
             'title' => ['required', 'string', 'max:191', 'unique:restaurants'],
             'kvk' => ['required', 'max:11', 'digits_between:8,12'],
@@ -54,6 +55,7 @@ class RestaurantController extends Controller
             'close' => ['required'],
         ]);
 
+        // Crop and save the image
         $originalImage = $request->file('photo');
         $cropped = Image::make($originalImage)
             ->fit(200, 200)
@@ -61,6 +63,7 @@ class RestaurantController extends Controller
         $img_id = uniqid().'.jpg';
         $cropped->save('../storage/app/public/'.$img_id);
 
+        // Create a new restaurant
         $restaurant = new Restaurant();
         $restaurant->title = $request->title;
         $restaurant->kvk = $request->kvk;
@@ -73,6 +76,7 @@ class RestaurantController extends Controller
         $restaurant->user_id = Auth::id();
         $restaurant->save();
 
+        // Create the openingtimes for the restaurant
         $openingtimes = new Openingtime();
         $openingtimes->restaurant_id = $restaurant->id;
         $openingtimes->open = $request->open;
@@ -90,15 +94,19 @@ class RestaurantController extends Controller
      */
     public function show($id)
     {
+        // Get the requested restaurant including the consumables and openingtimes
         $restaurant = Restaurant::where('id', $id)->with('consumables', 'openingtimes')->get();
+        // Store the opening, closing and current time in a variable
         $open = $restaurant[0]->openingtimes->open;
         $close = $restaurant[0]->openingtimes->close;
         $now = carbon::now()->format('H:i:s');
+        // If the restaurant is open now, return 1
         if ($now >= $open && $now <= $close) {
             $isOpen = 1;
         } else {
             $isOpen = 0;
         }
+        // Push all the consumables to their respective category
         $food = [];
         $drinks = [];
         $sides = [];
@@ -133,10 +141,8 @@ class RestaurantController extends Controller
     public function edit($id)
     {
         $restaurant = Restaurant::find($id);
-        $openingtimes = $restaurant->openingtimes;
         return view('restaurant.edit', [
-            'restaurant' => $restaurant,
-            'openingtimes' => $openingtimes
+            'restaurant' => $restaurant
         ]);
     }
 
@@ -156,13 +162,15 @@ class RestaurantController extends Controller
             'address' => ['required', 'string', 'max:191'],
             'zipcode' => ['required', 'string', 'max:7'],
             'city' => ['required', 'string', 'max:191'],
-            'phone' => ['required', 'numeric', 'digits_between:8,12', 'unique:restaurants'],
         ];
         if ($request->title != $restaurant->title) {
             $validateArray += ['title' => ['required', 'string', 'max:191', 'unique:restaurants']];
         }
         if ($request->email != $restaurant->email) {
             $validateArray += ['email' => ['required', 'string', 'email', 'max:191', 'unique:restaurants']];
+        }
+        if ($request->phone != $restaurant->phone) {
+            $validateArray += ['phone' => ['required', 'numeric', 'digits_between:8,12', 'unique:restaurants']];
         }
         if ($request->title != $restaurant->title) {
             $validateArray += ['title' => ['required', 'string', 'max:191', 'unique:restaurants']];
@@ -199,11 +207,14 @@ class RestaurantController extends Controller
 
     public function checkout($restaurant_id)
     {
+        // Get the consumables arrey from the session cookie
         $items = session()->get('consumables');
+        // Get all the data for each item
         $cart = [];
         foreach ($items as $key => $item) {
             array_push($cart, Consumable::where('id', $item)->get()[0]);
         }
+        // Calculate the total price
         $total = 0;
         foreach ($cart as $cartItem) {
             $total += $cartItem['price'];
@@ -233,6 +244,7 @@ class RestaurantController extends Controller
 
     public function search(Request $request)
     {
+        // Search to the restaurants for the given query
         $query = $request['query'];
         $results = Restaurant::where('title', 'like', '%'.$query.'%')->get();
         return view('restaurant.search', [

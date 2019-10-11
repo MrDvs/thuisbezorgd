@@ -50,6 +50,7 @@
                 <input type="file" class="form-control-file @error('photo') is-invalid @enderror" id="photoInput" name="photo">
             </div>
         </div>
+        <button class="btn btn-primary" type="submit">Bijwerken</button>
     </div>
 </form>
 <hr>
