@@ -7,8 +7,10 @@
 		<div class="restaurant-container">
 			<img src="{{asset('storage/'.$restaurant->photo)}}" style="height: 180px; width: 180px; display: block; margin: auto;">
 			<h2 class="text-center">{{$restaurant->title}}</h2>
+			<h4 class="text-center">{{$restaurant->address}}</h4>
+			<h4 class="text-center">{{$restaurant->zipcode}}, {{$restaurant->city}}</h4>
 			@if(!$isOpen)
-			<h4 class="text-center">{{$restaurant->title}} is gesloten. Je kan nu niks bestellen.</h4>
+			<h4 class="text-center">{{$restaurant->title}} opent om {{$restaurant->openingtimes->open}}. Je kunt nu niks bestellen.</h4>
 			@endif
 			<h3>Gerechten</h3>
 			<hr>
@@ -22,9 +24,11 @@
 			            <div class="detailswrapper">
 			                <h2 class="restaurantname" style="font-weight: bold;">{{$food->title}}</h2>
 			                <h4 class="restaurantaddress">€{{$food->price}}</h4>
+			                @auth
 			                @if($isOpen)
 			                <a class="add-to-cart" id="{{$food->category}}-{{$food->id}}" style="float: right;" href="{{route('cart.add', ['id' => $food->id])}}"><i class="fas fa-cart-plus"></i>Toevoegen</a>
 			                @endif
+			                @endauth
 			            </div>
 			        </div>
 				@endforeach
@@ -42,9 +46,11 @@
 			            <div class="detailswrapper">
 			                <h2 class="restaurantname" style="font-weight: bold;">{{$drink->title}}</h2>
 			                <h4 class="restaurantaddress">€{{$drink->price}}</h4>
+			                @auth
 			                @if($isOpen)
 			                <a class="add-to-cart" id="{{$drink->category}}-{{$drink->id}}" style="float: right;" href="{{route('cart.add', ['id' => $drink->id])}}"><i class="fas fa-cart-plus"></i>Toevoegen</a>
 			                @endif
+			                @endauth
 			            </div>
 			        </div>
 				@endforeach
@@ -62,9 +68,11 @@
 			            <div class="detailswrapper">
 			                <h2 class="restaurantname" style="font-weight: bold;">{{$side->title}}</h2>
 			                <h4 class="restaurantaddress">€{{$side->price}}</h4>
+			                @auth
 			                @if($isOpen)
 			                <a class="add-to-cart" id="{{$side->category}}-{{$side->id}}" style="float: right;" href="{{route('cart.add', ['id' => $side->id])}}"><i class="fas fa-cart-plus"></i>Toevoegen</a>
 			                @endif
+			                @endauth
 			            </div>
 			        </div>
 				@endforeach
@@ -74,6 +82,7 @@
 			<hr>
 		</div>
 	</div>
+	@auth
 	@if($isOpen)
 	<div class="col-md-3">
 		<div class="cart" style="position: fixed; border: 1px solid black; width: 400px">
@@ -85,6 +94,7 @@
 		</div>
 	</div>
 	@endif
+	@endauth
 </div>
 
 <script type="application/javascript">

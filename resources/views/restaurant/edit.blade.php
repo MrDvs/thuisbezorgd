@@ -67,15 +67,12 @@
                 </div>
                 <div class="detailswrapper">
                     <h2 class="restaurantname" style="font-weight: bold;">{{$consumable->title}}</h2>
-                    <h4 class="restaurantaddress">€{{$consumable->price}}, {{$consumable->category}}</h4>
-
-                    {{-- <a class="add-to-cart btn btn-danger" id="{{$consumable->category}}-{{$consumable->id}}" style="float: right;" href="{{route('consumable.destroy', ['consumable' => $consumable->id])}}" onclick="event.preventDefault(); document.getElementById('delete-form').submit();">Verwijderen</a> --}}
-
+                    <h4 class="restaurantaddress">€{{$consumable->price}}</h4>
 
                     <form action="{{route('consumable.destroy', ['consumable' => $consumable])}}" method="POST">
                         @csrf
                         @method('delete')
-                        <button class="btn btn-danger" type="submit">Verwijderen+</button>
+                        <button class="btn btn-danger" type="submit">Verwijderen</button>
                     </form>
                 </div>
             </div>
