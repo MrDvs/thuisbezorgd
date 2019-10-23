@@ -7,6 +7,7 @@ use App\User;
 use App\Order;
 use App\Consumable;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
@@ -97,22 +98,14 @@ class ProfileController extends Controller
             'address' => ['required', 'string', 'max:255'],
             'zipcode' => ['required', 'string', 'max:7'],
             'city' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'phone' => ['required', 'numeric', 'digits_between:8,12', Rule::unique('users')->ignore($user->id)],
         ];
-        // If the email changed, at it to the validateArray
-        if ($request->email != $user->email)
-        {
-            $validateArray += ['email' => ['required', 'string', 'email', 'max:255', 'unique:users']];
-        }
-        // If the phone number changed, at it to the validateArray
-        if ($request->phone != $user->phone)
-        {
-            $validateArray += ['phone' => ['required', 'numeric', 'digits_between:8,12', 'unique:users']];
-        }
         // If the password is not null, add it to the validateArray
         if ($request->password != null)
         {
             $validateArray += ['password' => ['required', 'string', 'min:6', 'confirmed']];
-            // If it is null, remove them from the request data so that it wont get updated
+        // If it is null, remove them from the request data so that it wont get updated
         } else {
             unset($requestData['password']);
             unset($requestData['password_confirmation']);
@@ -126,7 +119,7 @@ class ProfileController extends Controller
         }
         // Update everything that is present in the update array
         $user->update($requestData);
-        return redirect()->route('profile.index');
+        return redirect()->route('profile.index')->with('status', 'Profiel gegevens succesvol bijgewerkt');
     }
 
     /**
