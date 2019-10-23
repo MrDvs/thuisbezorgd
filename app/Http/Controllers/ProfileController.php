@@ -97,12 +97,16 @@ class ProfileController extends Controller
             'address' => ['required', 'string', 'max:255'],
             'zipcode' => ['required', 'string', 'max:7'],
             'city' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'numeric', 'digits_between:8,12', 'unique:users'],
         ];
         // If the email changed, at it to the validateArray
         if ($request->email != $user->email)
         {
             $validateArray += ['email' => ['required', 'string', 'email', 'max:255', 'unique:users']];
+        }
+        // If the phone number changed, at it to the validateArray
+        if ($request->phone != $user->phone)
+        {
+            $validateArray += ['phone' => ['required', 'numeric', 'digits_between:8,12', 'unique:users']];
         }
         // If the password is not null, add it to the validateArray
         if ($request->password != null)
