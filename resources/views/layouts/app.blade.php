@@ -123,6 +123,11 @@
                                     <a class="dropdown-item" href="{{ route('profile.index') }}">
                                         {{ __('Profiel') }}
                                     </a>
+                                    @if(Auth::user()->is_admin)
+                                    <a class="dropdown-item" href="{{ route('admin.admin') }}">
+                                        {{ __('Admin') }}
+                                    </a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
