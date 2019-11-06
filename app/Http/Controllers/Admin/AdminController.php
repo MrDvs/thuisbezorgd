@@ -31,7 +31,7 @@ class AdminController extends Controller
 
     public function consumables()
     {
-    	$consumables = Consumable::all();
+    	$consumables = Consumable::with('restaurant')->get();
     	return view('admin.consumables', ['consumables' => $consumables]);
     }
 }

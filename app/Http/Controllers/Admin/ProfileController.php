@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use Auth;
-use App\User;
-use App\Order;
-use App\Consumable;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
+use App\Consumable;
+use App\Order;
+use App\User;
+
 
 class ProfileController extends Controller
 {
@@ -19,21 +20,6 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        // Get the current logged in user with his restaurants and orders
-        $user = User::where('id', Auth::id())->with('restaurants', 'orders')->get()[0];
-        // Create an empty orders array
-        $orders = [];
-        if (count($user->orders)) {
-            foreach ($user->orders as $key => $order) {
-                // Push the consumables of each order to the orders array
-                array_push($orders, Order::where('id', $order->id)->with('consumables')->get()[0]);
-            }
-        }
-        // dd($orders);
-        return view('profile.show', [
-            'user' => $user,
-            'orders' => $orders
-        ]);
     }
 
     /**
@@ -68,6 +54,25 @@ class ProfileController extends Controller
         //
     }
 
+    public function orders($id)
+    {
+        // Get the current logged in user with his restaurants and orders
+        $user = User::where('id', $id)->with('restaurants', 'orders')->get()[0];
+        // Create an empty orders array
+        $orders = [];
+        if (count($user->orders)) {
+            foreach ($user->orders as $key => $order) {
+                // Push the consumables of each order to the orders array
+                array_push($orders, Order::where('id', $order->id)->with('consumables')->get()[0]);
+            }
+        }
+        // dd($orders);
+        return view('admin.profile.orders', [
+            'user' => $user,
+            'orders' => $orders
+        ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -76,14 +81,8 @@ class ProfileController extends Controller
      */
     public function edit($id)
     {
-        // Edit the current logged in user
-        if(Auth::user()->is_admin) {
-            $user = User::find($id);
-        } else {
-            $user = User::find(Auth::id());
-        }
-        
-        return view('profile.edit', ['user' => $user]);
+        $user = User::find($id);
+        return view('admin.profile.edit', ['user' => $user]);
     }
 
     /**
@@ -124,7 +123,7 @@ class ProfileController extends Controller
         }
         // Update everything that is present in the update array
         $user->update($requestData);
-        return redirect()->route('profile.index')->with('status', 'Profiel gegevens succesvol bijgewerkt');
+        return redirect()->route('admin.users')->with('status', 'Profiel van '.$user->name.' succesvol bijgewerkt');
     }
 
     /**
@@ -135,6 +134,8 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->route('admin.users')->with('status', 'Profiel van '.$user->name.' succesvol verwijderd');
     }
 }
