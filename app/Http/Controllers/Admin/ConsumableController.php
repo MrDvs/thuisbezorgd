@@ -16,8 +16,8 @@ class ConsumableController extends Controller
      */
     public function index()
     {
-        $consumables = Consumable::with('restaurant')->get();
-        return view('admin.consumables', ['consumables' => $consumables]);
+        $consumables = Consumable::with('restaurant')->simplePaginate(10);
+        return view('admin.consumable.index', ['consumables' => $consumables]);
     }
 
     /**

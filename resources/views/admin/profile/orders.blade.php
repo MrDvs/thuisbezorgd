@@ -51,7 +51,7 @@
 		    @endforeach
 		</div>
 	@else
-		<h5>Je hebt geen orders.</h5>
+		<h5>{{$user->name}} heeft geen orders.</h5>
 	@endif
 	</div>
 </div>

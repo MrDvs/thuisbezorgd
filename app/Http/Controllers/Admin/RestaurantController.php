@@ -7,6 +7,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Consumable;
 use App\Restaurant;
+use Image;
 
 class RestaurantController extends Controller
 {
@@ -17,8 +18,8 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        $restaurants = Restaurant::all();
-        return view('admin.restaurants', ['restaurants' => $restaurants]);
+        $restaurants = Restaurant::simplePaginate(10);
+        return view('admin.restaurant.index', ['restaurants' => $restaurants]);
     }
 
     /**

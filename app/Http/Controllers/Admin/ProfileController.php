@@ -20,8 +20,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('admin.users', ['users' => $users]);
+        $users = User::simplePaginate(10);
+        return view('admin.profile.index', ['users' => $users]);
     }
 
     /**
@@ -123,9 +123,14 @@ class ProfileController extends Controller
         {
             $requestData['password'] = Hash::make($request->password);
         }
-        // Update everything that is present in the update array
+        if (isset($requestData['is_admin'])) {
+            $requestData['is_admin'] = 1;
+        } else {
+            $requestData['is_admin'] = 0;
+        }
+        // Update everything that is present in the requestData array
         $user->update($requestData);
-        return redirect()->route('admin.users')->with('status', 'Profiel van '.$user->name.' succesvol bijgewerkt');
+        return redirect()->route('admin.profiles.index')->with('status', 'Profiel van '.$user->name.' succesvol bijgewerkt');
     }
 
     /**

@@ -61,6 +61,10 @@
                 <label for="phoneInput">Telefoon nummer</label>
                 <input type="number" class="form-control @error('phone') is-invalid @enderror" id="phoneInput" name="phone" value="{{$user->phone}}">
             </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="isAdminCheck" name="is_admin" @if($user->is_admin) checked="checked" @endif>
+                <label class="form-check-label" for="isAdminCheck">Admin</label>
+            </div>
             
         </div>
     </div>

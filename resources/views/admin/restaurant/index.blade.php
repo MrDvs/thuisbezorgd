@@ -26,6 +26,8 @@
   </tbody>
 </table>
 
+{{ $restaurants->links() }}
+
 @foreach($restaurants as $restaurant)
   <div class="modal fade" id="delete{{$restaurant->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
