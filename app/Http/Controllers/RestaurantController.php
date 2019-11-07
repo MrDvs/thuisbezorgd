@@ -219,7 +219,9 @@ class RestaurantController extends Controller
         foreach ($cart as $cartItem) {
             $total += $cartItem['price'];
         }
+        // Format the total price and put it in the session
         $total = number_format($total, 2);
+        session()->put('total', $total);
         return view('restaurant.pay', [
             'cart' => $cart,
             'total' => $total
@@ -228,15 +230,19 @@ class RestaurantController extends Controller
 
     public function pay($restaurant_id)
     {
+        // Retrieve all the consumables and the total price
         $items = session()->get('consumables');
+        $total = session()->get('total');
 
         $order = new Order();
         $order->user_id = Auth::id();
         $order->restaurant_id = $restaurant_id;
+        $order->total = $total;
         $order->save();
 
+        // Attach each consumable to the order
         foreach ($items as $item) {
-            $order->consumables()->attach($item, ['quantity' => 1, 'price' => 1]);
+            $order->consumables()->attach($item, ['quantity' => 1]);
         }
 
         return redirect()->route('profile.index')->with('status', 'Betaling geslaagd!');

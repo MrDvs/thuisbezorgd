@@ -16,17 +16,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $user = new User();
+        $user = new User;
         $user->name = 'Dennis';
         $user->address = 'Vredebest 15';
         $user->zipcode = '1191PM';
         $user->city = 'Ouderkerk aan de Amstel';
         $user->phone = '0638742929';
         $user->email = '1998dennis@live.nl';
+        $user->is_admin = 1;
         $user->password = bcrypt('admin123');
         $user->save();
 
-        $user = new User();
+        $user = new User;
         $user->name = 'Zakelijke man';
         $user->address = 'Zakelijkeweg 3';
         $user->zipcode = '1133TR';
@@ -36,7 +37,7 @@ class DatabaseSeeder extends Seeder
         $user->password = bcrypt('admin123');
         $user->save();
 
-        $restaurant = new Restaurant();
+        $restaurant = new Restaurant;
         $restaurant->title = 'Bedjennes wraps';
         $restaurant->kvk = '123456789';
         $restaurant->address = 'wrapweg 10';
@@ -48,7 +49,7 @@ class DatabaseSeeder extends Seeder
         $restaurant->user_id = 1;
         $restaurant->save();
 
-        $restaurant = new Restaurant();
+        $restaurant = new Restaurant;
         $restaurant->title = 'Smoke house';
         $restaurant->kvk = '459998453';
         $restaurant->address = 'Smokeweg 10';
@@ -60,13 +61,21 @@ class DatabaseSeeder extends Seeder
         $restaurant->user_id = 2;
         $restaurant->save();
 
-        $openingtime = new openingtime();
+        $consumable = new Consumable;
+        $consumable->title = 'Wrap';
+        $consumable->category = 1;
+        $consumable->photo = '../img/5dc4234f0d4bd.jpg';
+        $consumable->price = 4;
+        $consumable->restaurant_id = 1;
+        $consumable->save();
+
+        $openingtime = new openingtime;
         $openingtime->restaurant_id = 1;
         $openingtime->open = '08:00:00';
         $openingtime->close = '17:00:00';
         $openingtime->save();
 
-        $openingtime = new openingtime();
+        $openingtime = new openingtime;
         $openingtime->restaurant_id = 2;
         $openingtime->open = '13:00:00';
         $openingtime->close = '23:00:00';

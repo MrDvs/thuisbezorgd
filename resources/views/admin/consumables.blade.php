@@ -1,9 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-<a href="{{route('admin.users')}}" class="btn btn-primary">Alle gebruikers</a>
-<a href="{{route('admin.restaurants')}}" class="btn btn-primary">Alle restaurants</a>
-<a href="{{route('admin.consumables')}}" class="btn btn-primary">Alle Alle versnaperingen</a>
 <table class="table">
   <thead>
     <tr>
@@ -22,7 +19,7 @@
 	      <td>{{$consumable->title}}</td>
 	      <td>{{$consumable->category}}</td>
 	      <td>{{$consumable['restaurant']->title}}</td>
-	      <td><a href="#" class="btn btn-primary">Bewerken</a></td>
+	      <td><a href="{{route('admin.consumables.edit', ['consumable' => $consumable->id])}}" class="btn btn-primary">Bewerken</a></td>
 	      <td><a href="#" class="btn btn-danger">Verwijderen</a></td>
 	    </tr>
 	@endforeach

@@ -17,6 +17,7 @@ class CreateOrdersTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('restaurant_id');
+            $table->decimal('total', 6, 2);
             $table->timestamps();
         });
     }

@@ -18,7 +18,7 @@ class ConsumableOrder extends Migration
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('consumable_id');
             $table->integer('quantity');
-            $table->decimal('price', 8, 2);
+            // $table->decimal('price', 8, 2);
         });
     }
 

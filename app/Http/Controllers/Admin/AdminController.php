@@ -16,22 +16,4 @@ class AdminController extends Controller
     {
     	return view('admin.index');
     }
-
-    public function users()
-    {
-    	$users = User::all();
-    	return view('admin.users', ['users' => $users]);
-    }
-
-    public function restaurants()
-    {
-    	$restaurants = Restaurant::all();
-    	return view('admin.restaurants', ['restaurants' => $restaurants]);
-    }
-
-    public function consumables()
-    {
-    	$consumables = Consumable::with('restaurant')->get();
-    	return view('admin.consumables', ['consumables' => $consumables]);
-    }
 }

@@ -1,15 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-@if (session('status'))
-    <div class="alert alert-success text-center">
-        <h5>{{ session('status') }}</h5>
-    </div>
-@endif
-<a href="{{route('admin.users')}}" class="btn btn-primary">Alle gebruikers</a>
-<a href="{{route('admin.restaurants')}}" class="btn btn-primary">Alle restaurants</a>
-<a href="{{route('admin.consumables')}}" class="btn btn-primary">Alle Alle versnaperingen</a>
-
 <table class="table">
   <thead>
     <tr>

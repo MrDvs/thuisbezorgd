@@ -40,6 +40,7 @@
 						    @endforeach
 						  </tbody>
 						</table>
+						<h5 style="font-weight: bold;">Total: €{{$order->total}}</h5>
 				      </div>
 				      <div class="modal-footer">
 				        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
