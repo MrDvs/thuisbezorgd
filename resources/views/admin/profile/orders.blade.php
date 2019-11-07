@@ -9,6 +9,7 @@
 		    	<div class="card" style="width: 18rem; float: left;">
 				  <div class="card-body">
 				    <h5 class="card-title">Order {{$key + 1}}</h5>
+				    <h6 class="card-subtitle mb-2">{{$order->restaurant->title}}</h6>
 				    <h6 class="card-subtitle mb-2 text-muted">{{$order->created_at}}</h6>
 				    <p class="card-text"></p>
 				    <button type="button" class="card-link" data-toggle="modal" data-target="#orderModal{{$order->id}}">Order bekijken</button>
@@ -18,7 +19,7 @@
 				  <div class="modal-dialog" role="document">
 				    <div class="modal-content">
 				      <div class="modal-header">
-				        <h5 class="modal-title" id="exampleModalLabel">Order {{$key + 1}}</h5>
+				        <h5 class="modal-title" id="exampleModalLabel">Order {{$key + 1}} - {{$order->restaurant->title}}</h5>
 				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				          <span aria-hidden="true">&times;</span>
 				        </button>
