@@ -142,6 +142,6 @@ class ProfileController extends Controller
     {
         $user = User::find($id);
         $user->delete();
-        return redirect()->route('admin.profile.index')->with('status', 'Profiel van '.$user->name.' succesvol verwijderd');
+        return redirect()->route('admin.profiles.index')->with('status', 'Profiel van '.$user->name.' succesvol verwijderd');
     }
 }
