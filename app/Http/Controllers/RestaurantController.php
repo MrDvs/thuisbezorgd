@@ -101,7 +101,11 @@ class RestaurantController extends Controller
         $close = $restaurant[0]->openingtimes->close;
         $now = carbon::now()->format('H:i:s');
         // If the restaurant is open now, return 1
-        $isOpen = 1;
+        if ($now >= $open && $now <= $close) {
+            $isOpen = 1;
+        } else {
+            $isOpen = 0;
+        }
         // Push all the consumables to their respective category
         $food = [];
         $drinks = [];

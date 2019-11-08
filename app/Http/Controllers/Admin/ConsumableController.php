@@ -17,6 +17,20 @@ class ConsumableController extends Controller
     public function index()
     {
         $consumables = Consumable::with('restaurant')->simplePaginate(10);
+        // Transform the category numbers to text
+        foreach ($consumables as $key => $consumable) {
+            switch ($consumable->category) {
+                case 1:
+                    $consumables[$key]['category'] = 'Eten';
+                    break;
+                case 2:
+                    $consumables[$key]['category'] = 'Drinken';
+                    break;
+                case 3:
+                    $consumables[$key]['category'] = 'Bijgerecht';
+                    break;
+            }
+        }
         return view('admin.consumable.index', ['consumables' => $consumables]);
     }
 
@@ -107,6 +121,6 @@ class ConsumableController extends Controller
     {
         $consumable = Consumable::find($id);
         $consumable->delete();
-        return view('admin.consumables')->with('status', 'Versnapering succesvol verwijderd');
+        return redirect()->route('admin.consumables.index')->with('status', 'Versnapering succesvol verwijderd');
     }
 }
